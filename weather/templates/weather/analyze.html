@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>RunAdvisor</title>
-</head>
-<body>
-    <h1>Оценка погоды для пробежки</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Проверить</button>
+</form>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Проверить</button>
-    </form>
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
 
-    {% if recommendation %}
-        <hr>
-        <h2>Результат</h2>
-        <p><strong>Оценка:</strong> {{ recommendation.comfort_score }}</p>
-        <p><strong>Бежать можно:</strong> {{ recommendation.is_good_for_run }}</p>
-        <p><strong>Причины:</strong> {{ recommendation.explanation }}</p>
-    {% endif %}
-</body>
-</html>
+{% if recommendation %}
+    <h3>Результат</h3>
+    <p>Оценка: {{ recommendation.comfort_score }}</p>
+    <p>Можно бежать: {{ recommendation.is_good_for_run }}</p>
+    <p>{{ recommendation.explanation }}</p>
+{% endif %}
